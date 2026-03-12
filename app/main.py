@@ -5,7 +5,15 @@ from sqlalchemy.exc import IntegrityError
 from typing import Optional
 
 from app.database import get_db, init_db
-from app.models import User, UserRegister, UserLogin, UserResponse, TokenResponse, TokenValidateRequest, TokenValidateResponse
+from app.models import (
+    User,
+    UserRegister,
+    UserLogin,
+    UserResponse,
+    TokenResponse,
+    TokenValidateRequest,
+    TokenValidateResponse,
+)
 from app.security import create_access_token, verify_token, extract_token_from_header
 
 # Initialize database tables on startup
@@ -42,7 +50,12 @@ async def health() -> dict[str, str]:
     return {"status": "ok", "service": "auth-service"}
 
 
-@app.post("/auth/register", summary="Register New User", response_model=TokenResponse, status_code=status.HTTP_201_CREATED)
+@app.post(
+    "/auth/register",
+    summary="Register New User",
+    response_model=TokenResponse,
+    status_code=status.HTTP_201_CREATED,
+)
 async def register(user_data: UserRegister, db: Session = Depends(get_db)) -> TokenResponse:
     """Register a new user and return a JWT token."""
     try:
